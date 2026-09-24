@@ -1,17 +1,13 @@
-﻿<script>
-    function goToLogin() {
-      let role = document.getElementById("role").value
+﻿document.addEventListener("DOMContentLoaded", () => {
+    const toggle = document.querySelector(".nav-toggle");
+    const navigation = document.querySelector("#main-navigation");
 
-    if (role === "employee") {
-        window.location.href = "Home/Login"
-        }
-    else if (role === "donor") {
-        window.location.href = "/login"
-        }
-    else {
-        alert("Please select a role.")
-        }
+    if (!toggle || !navigation) {
+        return;
     }
 
-
-</script>
+    toggle.addEventListener("click", () => {
+        const isOpen = navigation.classList.toggle("is-open");
+        toggle.setAttribute("aria-expanded", String(isOpen));
+    });
+});
