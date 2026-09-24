@@ -1,0 +1,200 @@
+﻿
+            @RenderBody()
+       
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Gift of the Givers</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+        }
+
+        .navbar {
+            background: #8B0000;
+            padding: 15px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            .navbar .logo {
+                color: white;
+                font-size: 24px;
+                font-weight: bold;
+            }
+
+                .navbar .logo span {
+                    color: #FFD700;
+                }
+
+            .navbar .nav-links a {
+                color: white;
+                text-decoration: none;
+                margin-left: 25px;
+                font-size: 16px;
+            }
+
+                .navbar .nav-links a:hover {
+                    color: #FFD700;
+                }
+
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        .header-text {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+            .header-text h1 {
+                color: #8B0000;
+                font-size: 32px;
+            }
+
+            .header-text p {
+                color: #666;
+                font-size: 18px;
+            }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: #8B0000;
+            color: white;
+        }
+
+            .btn-primary:hover {
+                background: #6B0000;
+            }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+            .btn-success:hover {
+                background: #218838;
+            }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+            .btn-secondary:hover {
+                background: #5a6268;
+            }
+
+        .btn-warning {
+            background: #ffc107;
+            color: #333;
+        }
+
+            .btn-warning:hover {
+                background: #e0a800;
+            }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+            .form-group label {
+                display: block;
+                font-weight: bold;
+                margin-bottom: 5px;
+                color: #333;
+            }
+
+            .form-group input, .form-group select, .form-group textarea {
+                width: 100%;
+                padding: 10px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                font-size: 16px;
+            }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: #f8f9fa;
+        }
+
+        .card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-danger {
+            color: red;
+        }
+
+        .mt-20 {
+            margin-top: 20px;
+        }
+
+        .mb-20 {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">🎁 <span>Gift</span> of the Givers</div>
+        <div class="nav-links">
+            <a href="@Url.Action("Index", "Home")">Home</a>
+            <a href="@Url.Action("About", "Home")">About</a>
+            <a href="@Url.Action("Donate", "Donor")">Donate</a>
+            <a href="@Url.Action("Volunteer", "Volunteer")">Volunteer</a>
+            <a href="@Url.Action("Login", "Register")">Login</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        @RenderBody()
+    </div>
+
+    <footer style="text-align:center; padding:20px; color:#666; font-size:14px;">
+        &copy; @DateTime.Now.Year Gift of the Givers. All rights reserved.
+    </footer>
+</body>
+</html>

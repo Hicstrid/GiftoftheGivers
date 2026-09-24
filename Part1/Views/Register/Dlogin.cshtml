@@ -1,0 +1,159 @@
+﻿@model Part1.Models.Users
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Donor Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #8B0000;
+            text-align: center;
+            margin: 0 0 5px 0;
+            font-size: 24px;
+        }
+
+        .sub {
+            text-align: center;
+            color: #666;
+            margin: 0 0 20px 0;
+            font-size: 14px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #28a745;
+            color: white;
+            padding: 2px 10px;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+            .form-group label {
+                display: block;
+                font-weight: bold;
+                margin-bottom: 5px;
+                font-size: 14px;
+            }
+
+            .form-group input {
+                width: 100%;
+                padding: 10px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                font-size: 14px;
+                box-sizing: border-box;
+            }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+            .btn:hover {
+                background: #218838;
+            }
+
+        .text-center {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+            .text-center a {
+                color: #28a745;
+                text-decoration: none;
+            }
+
+        .error {
+            background: #ffcccc;
+            color: red;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .success {
+            background: #d4edda;
+            color: #155724;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            text-align: center;
+        }
+
+            .success strong {
+                display: block;
+                font-size: 16px;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1> Gift of the Givers</h1>
+        <p class="sub">Donor Login <span class="badge">Donor</span></p>
+
+        @if (TempData["Success"] != null)
+        {
+            <div class="success"><strong>@TempData["Success"]</strong>Please login to continue.</div>
+        }
+
+        @if (ViewBag.Error != null)
+        {
+            <div class="error">@ViewBag.Error</div>
+        }
+
+        <form asp-action="Dlogin" method="post">
+            <div class="form-group">
+                <label>Username</label>
+                <input asp-for="Username" placeholder="Enter username" required />
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input asp-for="Password" type="password" placeholder="Enter password" required />
+            </div>
+            <button type="submit" class="btn">Login</button>
+        </form>
+
+        <div class="text-center">
+            Don't have an account? <a href="@Url.Action("Register", "Register")">Register</a><br />
+            <a href="@Url.Action("Index", "Home")" style="color:#999;">Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>
