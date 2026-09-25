@@ -96,6 +96,13 @@ body {
   box-shadow: 0 12px 30px rgba(66, 45, 30, 0.08);
 }
 
+.container-auth {
+  min-height: auto;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
 .site-footer {
   padding: 1.25rem;
   color: var(--muted);
@@ -433,6 +440,197 @@ body {
   text-decoration: underline;
 }
 
+.auth-page {
+  display: flex;
+  justify-content: center;
+  margin: calc(clamp(1.5rem, 4vw, 3rem) * -1);
+  padding: clamp(1.5rem, 5vw, 4rem);
+  background: #ede8e1;
+}
+
+.auth-panel {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.85fr) minmax(300px, 1fr);
+  width: min(100%, 820px);
+  overflow: hidden;
+  background: var(--surface);
+  box-shadow: 0 18px 40px rgba(66, 45, 30, 0.12);
+}
+
+.auth-intro {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 520px;
+  padding: clamp(1.75rem, 5vw, 3.5rem);
+  background: var(--brand-red);
+  color: #ffffff;
+}
+
+.auth-intro .eyebrow {
+  color: var(--brand-gold);
+}
+
+.auth-intro h1 {
+  max-width: 280px;
+  margin: 0;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  line-height: 0.95;
+}
+
+.auth-intro > p:not(.eyebrow) {
+  max-width: 300px;
+  margin: 1.25rem 0 0;
+  color: rgba(255, 255, 255, 0.8);
+  font-family: Arial, sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.auth-role-mark {
+  margin-top: 3rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.35);
+  color: rgba(255, 255, 255, 0.75);
+  font-family: Arial, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.auth-panel-donor .auth-intro {
+  background: #245c4a;
+}
+
+.auth-panel-register .auth-intro {
+  background: #b45e3c;
+}
+
+.auth-form-wrap {
+  align-self: center;
+  padding: clamp(1.75rem, 5vw, 3.5rem);
+}
+
+.auth-kicker {
+  margin: 0 0 1.75rem;
+  color: var(--brand-red);
+  font-family: Arial, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.auth-form .form-group {
+  margin-bottom: 1rem;
+}
+
+.auth-form label {
+  display: block;
+  margin-bottom: 0.4rem;
+  color: var(--ink);
+  font-family: Arial, sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.auth-form input,
+.auth-form select {
+  width: 100%;
+  min-height: 46px;
+  padding: 0.75rem 0.85rem;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  background: #fffdfb;
+  color: var(--ink);
+  font-family: Arial, sans-serif;
+  font-size: 0.9rem;
+}
+
+.auth-form input:focus,
+.auth-form select:focus {
+  outline: 2px solid rgba(180, 94, 60, 0.3);
+  border-color: var(--brand-red);
+}
+
+.btn-auth {
+  width: 100%;
+  margin-top: 0.5rem;
+  background: var(--brand-red);
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.btn-auth:hover,
+.btn-auth:focus-visible {
+  background: var(--brand-red-dark);
+}
+
+.btn-auth-donor {
+  background: #245c4a;
+}
+
+.btn-auth-donor:hover,
+.btn-auth-donor:focus-visible {
+  background: #174636;
+}
+
+.auth-alert {
+  margin-bottom: 1rem;
+  padding: 0.8rem;
+  border-left: 3px solid;
+  font-family: Arial, sans-serif;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.auth-alert strong {
+  display: block;
+}
+
+.auth-alert-success {
+  border-color: #287a4d;
+  background: #e8f4ec;
+  color: #205c3a;
+}
+
+.auth-alert-error {
+  border-color: #a52b2b;
+  background: #fbeaea;
+  color: #842424;
+}
+
+.auth-switch,
+.auth-register,
+.auth-back {
+  margin: 1.25rem 0 0;
+  color: var(--muted);
+  font-family: Arial, sans-serif;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.auth-switch a,
+.auth-register a,
+.auth-back a {
+  color: var(--brand-red);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.auth-switch a:hover,
+.auth-register a:hover,
+.auth-back a:hover {
+  text-decoration: underline;
+}
+
+.auth-back {
+  margin-top: 2rem;
+  font-size: 0.78rem;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -481,6 +679,23 @@ body {
 
   .home-page {
     margin: -1.5rem;
+  }
+
+  .auth-page {
+    margin: -1.5rem;
+    padding: 1.5rem;
+  }
+
+  .auth-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-intro {
+    min-height: 260px;
+  }
+
+  .auth-role-mark {
+    margin-top: 2rem;
   }
 
   .home-hero,
