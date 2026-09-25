@@ -103,6 +103,82 @@ body {
   box-shadow: none;
 }
 
+.container-landing {
+  min-height: auto;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 20;
+  padding: 0.65rem 0.85rem;
+  transform: translateY(-180%);
+  background: #ffffff;
+  color: var(--brand-red);
+  font-family: Arial, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid rgba(255, 209, 102, 0.95);
+  outline-offset: 3px;
+}
+
+form[aria-busy="true"] {
+  opacity: 0.72;
+}
+
+button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.error-state {
+  max-width: 620px;
+  margin: 0 auto;
+  padding: clamp(2rem, 8vw, 6rem) 0;
+  text-align: center;
+}
+
+.error-state .eyebrow {
+  color: var(--brand-red);
+}
+
+.error-state h1 {
+  margin: 0;
+  color: var(--brand-red);
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  line-height: 1;
+}
+
+.error-state > p:not(.eyebrow):not(.error-request) {
+  margin: 1rem auto 1.5rem;
+  color: var(--muted);
+  font-family: Arial, sans-serif;
+  line-height: 1.5;
+}
+
+.error-request {
+  margin-top: 2rem;
+  color: var(--muted);
+  font-family: Arial, sans-serif;
+  font-size: 0.75rem;
+}
+
 .site-footer {
   padding: 1.25rem;
   color: var(--muted);

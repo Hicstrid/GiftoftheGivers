@@ -1,12 +1,13 @@
 ﻿@{
     ViewData["Title"] = "Home";
+    ViewData["ContainerClass"] = "container-landing";
 }
 
-<main class="home-page">
+<section class="home-page" aria-labelledby="home-title">
     <section class="home-hero">
         <div class="hero-copy">
             <p class="eyebrow">Disaster relief, powered by people</p>
-            <h1>Help reaches further when we stand together.</h1>
+            <h1 id="home-title">Help reaches further when we stand together.</h1>
             <p class="hero-lead">Gift of the Givers connects generous donors and committed volunteers with communities facing crisis across South Africa.</p>
             <div class="hero-actions">
                 <a href="@Url.Action("Donate", "Donor")" class="btn btn-primary">Make a donation</a>
@@ -77,4 +78,4 @@
         </article>
     </section>
 
-</main>
+</section>
