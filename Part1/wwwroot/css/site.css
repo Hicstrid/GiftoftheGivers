@@ -21,6 +21,7 @@ html {
 body {
   min-height: 100vh;
   margin: 0;
+  padding-top: 76px;
   overflow-x: hidden;
   background: var(--page);
   color: var(--ink);
@@ -28,8 +29,10 @@ body {
 }
 
 .navbar {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 10;
   display: flex;
   align-items: center;
