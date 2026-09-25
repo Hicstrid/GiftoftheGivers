@@ -14,6 +14,7 @@ namespace Part1.Controllers
         {
             v.Id = allVolunteers.Count + 1;
             v.ApplicationDate = DateTime.Now;
+            v.Status = "Pending";
             allVolunteers.Add(v);
             return View("Confirmation", v);
         }
