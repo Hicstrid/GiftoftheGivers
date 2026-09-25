@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using GiftOfTheGivers.Helpers;
+using Microsoft.AspNetCore.Mvc;
 using Part1.Models;
 using Part1.Services;
 
@@ -22,6 +23,23 @@ namespace Part1.Controllers
         [HttpPost]
         public async Task<IActionResult> DonateMoney(Donation d)
         {
+            // Same rules the certificate function uses, so invalid donations are caught before calling it
+            var errors = DonationValidator.Validate(
+                d.DonationAmount,
+                d.Currency,
+                d.IsRecurring ? "recurring" : "once-off",
+                d.DonorName,
+                string.IsNullOrWhiteSpace(d.DonorName));
+
+            if (errors.Count > 0)
+            {
+                foreach (var error in errors)
+                {
+                    ModelState.AddModelError(string.Empty, error);
+                }
+                return View("Donation");
+            }
+
             d.Id = allDonations.Count + 1;
             d.DonationDate = DateTime.Now;
 

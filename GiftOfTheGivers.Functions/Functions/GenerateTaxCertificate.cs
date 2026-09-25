@@ -1,6 +1,7 @@
 using System.Globalization;
 using System.Text.Json;
 using GiftOfTheGivers.Functions.Models;
+using GiftOfTheGivers.Helpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
@@ -10,11 +11,6 @@ namespace GiftOfTheGivers.Functions.Functions;
 
 public class GenerateTaxCertificate
 {
-    private static readonly string[] AllowedCurrencies = { "ZAR", "USD", "EUR" };
-    private static readonly string[] AllowedDonationTypes = { "once-off", "recurring" };
-    private const decimal MaxAmount = 1_000_000m;
-    private const int MaxNameLength = 100;
-
     private static readonly JsonSerializerOptions JsonOptions = new() { PropertyNameCaseInsensitive = true };
 
     private readonly ILogger<GenerateTaxCertificate> _logger;
@@ -48,7 +44,8 @@ public class GenerateTaxCertificate
             // Only validate the values once the input itself could be read
             if (request != null && errors.Count == 0)
             {
-                Validate(request, errors);
+                errors.AddRange(DonationValidator.Validate(
+                    request.Amount, request.Currency, request.DonationType, request.DonorName, request.Anonymous));
             }
 
             if (errors.Count > 0 || request == null)
@@ -60,7 +57,7 @@ public class GenerateTaxCertificate
             var issuedDate = DateTime.UtcNow;
             var response = new TaxCertificateResponse
             {
-                CertificateNumber = CreateCertificateNumber(issuedDate),
+                CertificateNumber = CertificateNumberGenerator.Create(issuedDate),
                 DonorName = request.Anonymous ? "Anonymous" : request.DonorName!.Trim(),
                 Amount = decimal.Round(request.Amount!.Value, 2),
                 Currency = request.Currency!.Trim().ToUpperInvariant(),
@@ -142,58 +139,5 @@ public class GenerateTaxCertificate
         }
 
         return request;
-    }
-
-    private static void Validate(TaxCertificateRequest request, List<string> errors)
-    {
-        if (request.Amount == null)
-        {
-            errors.Add("Amount is required.");
-        }
-        else if (request.Amount <= 0)
-        {
-            errors.Add("Amount must be greater than zero.");
-        }
-        else if (request.Amount > MaxAmount)
-        {
-            errors.Add($"Amount cannot be more than {MaxAmount.ToString("N0", CultureInfo.InvariantCulture)}.");
-        }
-
-        if (string.IsNullOrWhiteSpace(request.Currency))
-        {
-            errors.Add("Currency is required (ZAR, USD or EUR).");
-        }
-        else if (!AllowedCurrencies.Contains(request.Currency.Trim().ToUpperInvariant()))
-        {
-            errors.Add($"Currency '{request.Currency}' is not supported. Use ZAR, USD or EUR.");
-        }
-
-        if (string.IsNullOrWhiteSpace(request.DonationType))
-        {
-            errors.Add("Donation type is required (once-off or recurring).");
-        }
-        else if (!AllowedDonationTypes.Contains(request.DonationType.Trim().ToLowerInvariant()))
-        {
-            errors.Add($"Donation type '{request.DonationType}' is not supported. Use once-off or recurring.");
-        }
-
-        if (!request.Anonymous)
-        {
-            if (string.IsNullOrWhiteSpace(request.DonorName))
-            {
-                errors.Add("Donor name is required unless the donation is anonymous.");
-            }
-            else if (request.DonorName.Trim().Length > MaxNameLength)
-            {
-                errors.Add($"Donor name cannot be longer than {MaxNameLength} characters.");
-            }
-        }
-    }
-
-    // Format: GOTG-yyyyMMdd-XXXXXX
-    private static string CreateCertificateNumber(DateTime issuedDate)
-    {
-        var suffix = Guid.NewGuid().ToString("N")[..6].ToUpperInvariant();
-        return $"GOTG-{issuedDate:yyyyMMdd}-{suffix}";
     }
 }
