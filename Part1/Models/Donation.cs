@@ -14,6 +14,7 @@ namespace Part1.Models
         public string UserId { get; set; } // Null if anonymous guest
         public string DonorName { get; set; } // For anonymous donation
         public string Email { get; set; } // To send tax certificate
+        public string? CertificateNumber { get; set; } // Issued by the GenerateTaxCertificate function
 
     }
 

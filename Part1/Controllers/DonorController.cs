@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Part1.Models;
+using Part1.Services;
 
 namespace Part1.Controllers
 {
@@ -9,13 +10,33 @@ namespace Part1.Controllers
         public static List<Clothes> allClothes = new List<Clothes>();
         public static List<Food> allFood = new List<Food>();
 
-        public IActionResult Donate() => View();
+        private readonly FunctionsClient _functions;
+
+        public DonorController(FunctionsClient functions)
+        {
+            _functions = functions;
+        }
+
+        public IActionResult Donate() => View("Donation");
 
         [HttpPost]
-        public IActionResult DonateMoney(Donation d)
+        public async Task<IActionResult> DonateMoney(Donation d)
         {
             d.Id = allDonations.Count + 1;
             d.DonationDate = DateTime.Now;
+
+            var certificate = await _functions.GenerateTaxCertificateAsync(d);
+            if (certificate.Success)
+            {
+                d.CertificateNumber = certificate.CertificateNumber;
+            }
+            else
+            {
+                // Function unavailable or rejected the request, so issue a local reference instead
+                d.CertificateNumber = $"TX-{d.Id}-{DateTime.Now.Year}";
+                ViewBag.CertificateNote = certificate.ErrorMessage;
+            }
+
             allDonations.Add(d);
             return View("TaxCertificate", d);
         }

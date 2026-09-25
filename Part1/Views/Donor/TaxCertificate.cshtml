@@ -94,6 +94,14 @@
             margin-top: 15px;
         }
 
+        .note {
+            color: #856404;
+            background: #fff3cd;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 13px;
+        }
+
         .contact {
             color: #999;
             font-size: 12px;
@@ -108,13 +116,18 @@
 
         <div class="cert">
             <h2 style="color:#8B0000;">Thank You!</h2>
-            <p><strong>Certificate:</strong> TX-@Model.Id-@DateTime.Now.Year</p>
+            <p><strong>Certificate:</strong> @(Model.CertificateNumber ?? $"TX-{Model.Id}-{DateTime.Now.Year}")</p>
             <p><strong>Donor:</strong> @(Model.DonorName ?? "Anonymous")</p>
             <p><strong>Email:</strong> @Model.Email</p>
             <p><strong>Amount:</strong> @Model.Currency @Model.DonationAmount</p>
             <p><strong>Date:</strong> @Model.DonationDate.ToString("dd MMM yyyy")</p>
             <p><strong>Recurring:</strong> @(Model.IsRecurring ? "Yes" : "No")</p>
         </div>
+
+        @if (ViewBag.CertificateNote != null)
+        {
+            <p class="note">@ViewBag.CertificateNote A temporary reference was issued instead.</p>
+        }
 
         <button onclick="window.print()" class="btn">Download PDF</button>
 

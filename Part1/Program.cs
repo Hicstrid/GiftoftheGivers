@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Part1.Data;
+using Part1.Services;
 using System.IO;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,23 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages(); //enable Razor pages in addition to MVC controllers/views
 builder.Services.AddDbContext<Part1Context>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Part1Context")));
+
+// Azure Functions app (tax certificates and project update logging)
+var functionsBaseUrl = builder.Configuration["AzureFunctions:BaseUrl"] ?? "http://localhost:7071/api";
+var functionKey = builder.Configuration["AzureFunctions:FunctionKey"];
+builder.Services.AddHttpClient(FunctionsClient.HttpClientName, client =>
+{
+    client.BaseAddress = new Uri(functionsBaseUrl.TrimEnd('/') + "/");
+    client.Timeout = TimeSpan.FromSeconds(10);
+
+    // Only needed once the functions are deployed to Azure
+    if (!string.IsNullOrWhiteSpace(functionKey))
+    {
+        client.DefaultRequestHeaders.Add("x-functions-key", functionKey);
+    }
+});
+builder.Services.AddScoped<FunctionsClient>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
