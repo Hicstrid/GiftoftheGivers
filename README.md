@@ -1,5 +1,8 @@
 # Gift of the Givers
 
+<!-- Replace with the markdown from Pipelines > GiftoftheGivers > ... > Status badge once the pipeline has been created -->
+[![Build Status](https://dev.azure.com/GiftOfTheGiversTeam/Gift%20of%20the%20Givers%20Relief%20Management%20System/_apis/build/status/GiftoftheGivers?branchName=master)](https://dev.azure.com/GiftOfTheGiversTeam/Gift%20of%20the%20Givers%20Relief%20Management%20System/_build)
+
 ASP.NET Core MVC web app (`Part1`) with an Azure Functions app (`GiftOfTheGivers.Functions`) in the same solution (`Part1.sln`).
 
 ## Projects
@@ -8,6 +11,37 @@ ASP.NET Core MVC web app (`Part1`) with an Azure Functions app (`GiftOfTheGivers
 | --- | --- |
 | `Part1` | MVC web app (donations, volunteers, employee dashboard) |
 | `GiftOfTheGivers.Functions` | Azure Functions (.NET 8 isolated worker, Functions v4) |
+| `GiftOfTheGivers.Helpers` | Shared helper library, published as a NuGet package to Azure Artifacts |
+| `GiftOfTheGivers.Tests` | xUnit tests for the helpers and the `GenerateTaxCertificate` function |
+
+## GiftOfTheGivers.Helpers package
+
+The web app and the Functions app both use the helpers through a `PackageReference`, not a project reference:
+
+- `DonationValidator` - the donation rules (amount, currency, donation type, donor name) used by the function and by `DonorController.DonateMoney`.
+- `CertificateNumberGenerator` - certificate numbers in the format `GOTG-yyyyMMdd-XXXXXX`.
+- `AmountFormatter` - amounts for display, for example `ZAR 300.00` on the tax certificate page.
+
+Feed: `GiftOfTheGiversHelpers` (project-scoped Azure Artifacts feed, with nuget.org as an upstream source). `nuget.config` adds the feed and maps `GiftOfTheGivers.*` packages to it, so everything else still comes from nuget.org.
+
+Versioning follows semantic versioning. The version is set in `GiftOfTheGivers.Helpers.csproj` and each version is published once:
+
+| Version | Change |
+| --- | --- |
+| 1.0.0 | `DonationValidator` and `CertificateNumberGenerator` moved out of the function |
+| 1.1.0 | Added `AmountFormatter` (new feature, nothing removed, so a minor version) |
+
+To publish a new version, bump `<Version>`, then run `dotnet pack -c Release` and `dotnet nuget push` to the feed, and update the `PackageReference` in `Part1` and `GiftOfTheGivers.Functions`. Restoring from the feed needs Azure DevOps credentials, for example Visual Studio signed in to the org, or the Azure Artifacts Credential Provider with `dotnet restore --interactive`.
+
+## Tests and CI pipeline
+
+Run the tests with `dotnet test`. `azure-pipelines.yml` runs on every push to `master`:
+
+1. **Build** - restore (with `NuGetAuthenticate` for the feed), build and run the tests, then publish the test results and code coverage.
+2. **Package** - publish the web app and Functions app and pack the Helpers library as build artifacts.
+3. **SmokeTest** - call the deployed `GenerateTaxCertificate` function.
+
+The shared restore steps live in `pipelines/templates/restore-steps.yml`. The smoke test needs a secret pipeline variable named `FunctionKey` (Edit > Variables > Keep this value secret). It is never stored in the repo.
 
 ## Azure Functions
 
