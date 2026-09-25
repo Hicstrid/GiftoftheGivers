@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <nav class="navbar" aria-label="Main navigation">
         <a class="logo" href="@Url.Action("Index", "Home")"><span>Gift</span> of the Givers</a>
         <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-navigation">
@@ -24,7 +25,7 @@
         </div>
     </nav>
 
-    <main class="container @ViewData["ContainerClass"]">
+    <main id="main-content" class="container @ViewData["ContainerClass"]">
         @RenderBody()
     </main>
 
