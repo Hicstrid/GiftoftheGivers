@@ -1,143 +1,55 @@
-﻿@model Part1.Models.Users
+@model Part1.Models.Users
 @{
-    Layout = null;
+    ViewData["Title"] = "Create Account";
+    ViewData["ContainerClass"] = "container-auth";
 }
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Register</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f5f5f5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-        }
-
-        .container {
-            background: white;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            max-width: 450px;
-            width: 100%;
-        }
-
-        h1 {
-            color: #8B0000;
-            text-align: center;
-            margin: 0 0 5px 0;
-            font-size: 24px;
-        }
-
-        .sub {
-            text-align: center;
-            color: #666;
-            margin: 0 0 20px 0;
-            font-size: 14px;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-            .form-group label {
-                display: block;
-                font-weight: bold;
-                margin-bottom: 5px;
-                font-size: 14px;
-            }
-
-            .form-group input, .form-group select {
-                width: 100%;
-                padding: 10px;
-                border: 1px solid #ddd;
-                border-radius: 5px;
-                font-size: 14px;
-                box-sizing: border-box;
-            }
-
-        .btn {
-            width: 100%;
-            padding: 12px;
-            background: #8B0000;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-            .btn:hover {
-                background: #6B0000;
-            }
-
-        .text-center {
-            text-align: center;
-            margin-top: 15px;
-            font-size: 14px;
-        }
-
-            .text-center a {
-                color: #8B0000;
-                text-decoration: none;
-            }
-
-        .error {
-            background: #ffcccc;
-            color: red;
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 15px;
-            font-size: 14px;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Gift of the Givers</h1>
-        <p class="sub">Create an Account</p>
-        @if (ViewBag.Error != null)
-        {
-            <div class="error">@ViewBag.Error</div>
-        }
-        <form asp-action="RegisterUser" method="post">
-            <div class="form-group">
-                <label>Full Name</label>
-                <input asp-for="Fullname" placeholder="Enter full name" required />
-            </div>
-            <div class="form-group">
-                <label>Username</label>
-                <input asp-for="Username" placeholder="Enter username" required />
-            </div>
-            <div class="form-group">
-                <label>Email</label>
-                <input asp-for="Email" type="email" placeholder="Enter email" required />
-            </div>
-            <div class="form-group">
-                <label>Password</label>
-                <input asp-for="Password" type="password" placeholder="Enter password" required />
-            </div>
-            <div class="form-group">
-                <label>Role</label>
-                <select asp-for="role" required>
-                    <option value="">Select Role</option>
-                    <option value="Employee">Employee</option>
-                    <option value="Donor">Donor</option>
-                </select>
-            </div>
-            <button type="submit" class="btn">Register</button>
-        </form>
-
-        <div class="text-center">
-            Already have an account? <a href="@Url.Action("Login", "Register")">Login</a>
+<main class="auth-page">
+    <section class="auth-panel auth-panel-register" aria-labelledby="register-title">
+        <div class="auth-intro">
+            <p class="eyebrow">Join the response</p>
+            <h1 id="register-title">Make your help count.</h1>
+            <p>Create an account to take part as a donor or become part of the team making relief possible.</p>
+            <div class="auth-role-mark">One account, many ways to help</div>
         </div>
-    </div>
-</body>
-</html>
+        <div class="auth-form-wrap">
+            <p class="auth-kicker">Create an account</p>
+
+            @if (ViewBag.Error != null)
+            {
+                <div class="auth-alert auth-alert-error" role="alert">@ViewBag.Error</div>
+            }
+
+            <form asp-action="RegisterUser" method="post" class="auth-form">
+                <div class="form-group">
+                    <label asp-for="Fullname">Full name</label>
+                    <input asp-for="Fullname" autocomplete="name" placeholder="Enter your full name" required />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Username">Username</label>
+                    <input asp-for="Username" autocomplete="username" placeholder="Choose a username" required />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email">Email address</label>
+                    <input asp-for="Email" type="email" autocomplete="email" placeholder="you@example.com" required />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password">Password</label>
+                    <input asp-for="Password" type="password" autocomplete="new-password" placeholder="Create a password" required />
+                </div>
+                <div class="form-group">
+                    <label asp-for="role">I want to join as</label>
+                    <select asp-for="role" required>
+                        <option value="">Select a role</option>
+                        <option value="Employee">Employee</option>
+                        <option value="Donor">Donor</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-auth">Create account</button>
+            </form>
+
+            <p class="auth-switch">Already have an account? <a href="@Url.Action("Login", "Register")">Sign in</a></p>
+            <p class="auth-back"><a href="@Url.Action("Index", "Home")">&larr; Back to home</a></p>
+        </div>
+    </section>
+</main>
