@@ -65,8 +65,8 @@ public class GenerateTaxCertificate
                 IssuedDate = issuedDate
             };
 
-            _logger.LogInformation("Issued certificate {CertificateNumber} for {Currency} {Amount} ({DonationType}).",
-                response.CertificateNumber, response.Currency, response.Amount, response.DonationType);
+            _logger.LogInformation("Issued certificate {CertificateNumber} for {Amount} ({DonationType}).",
+                response.CertificateNumber, AmountFormatter.Format(response.Amount, response.Currency), response.DonationType);
 
             return new OkObjectResult(response);
         }

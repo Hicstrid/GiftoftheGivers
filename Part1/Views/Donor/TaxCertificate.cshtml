@@ -1,4 +1,5 @@
 ﻿@model Part1.Models.Donation
+@using GiftOfTheGivers.Helpers
 @{
     Layout = null;
 }
@@ -119,7 +120,7 @@
             <p><strong>Certificate:</strong> @(Model.CertificateNumber ?? $"TX-{Model.Id}-{DateTime.Now.Year}")</p>
             <p><strong>Donor:</strong> @(Model.DonorName ?? "Anonymous")</p>
             <p><strong>Email:</strong> @Model.Email</p>
-            <p><strong>Amount:</strong> @Model.Currency @Model.DonationAmount</p>
+            <p><strong>Amount:</strong> @AmountFormatter.Format(Model.DonationAmount, Model.Currency)</p>
             <p><strong>Date:</strong> @Model.DonationDate.ToString("dd MMM yyyy")</p>
             <p><strong>Recurring:</strong> @(Model.IsRecurring ? "Yes" : "No")</p>
         </div>
